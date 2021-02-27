@@ -12,7 +12,7 @@ type GatewayConfiguration struct {
 	endpoint string
 }
 
-// init provider block
+// Provider init  block
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{

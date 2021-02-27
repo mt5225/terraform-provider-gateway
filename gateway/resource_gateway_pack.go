@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/mt5225/cloudj-gateway-go/gateway"
+	gw "github.com/mt5225/cloudj-gateway-go/gateway"
 )
 
 // pizza resource declaration and schema
@@ -80,7 +80,7 @@ func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 	}
 
 	// invoke bindings to make pizza according to specifications
-	resource, err := gateway.Create(opts)
+	resource, err := gw.Create(opts)
 
 	// code to handle errors
 
