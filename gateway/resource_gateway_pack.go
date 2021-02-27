@@ -2,6 +2,8 @@ package gateway
 
 import (
 	"encoding/json"
+	"fmt"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	gw "github.com/mt5225/cloudj-gateway-go/gateway"
@@ -71,21 +73,27 @@ func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 		"provider":      data.Get("provider"),
 	}
 
-	body_encode, _ := json.Marshal(*body)
-
-	opts := map[string]interface{}{
-		"endpoint": "",
-		"method":   "POST",
-		"body":     body_encode,
+	bodyEncode, err := json.Marshal(*body)
+	if err != nil {
+		log.Fatal("fail to marshal message body")
+		return err
 	}
+
+	conf := meta.(*Configuration)
+	opts := new(gw.Opts)
+	opts.Endpoint = conf.endpoint
+	opts.Method = "POST"
+	opts.Body = bodyEncode
 
 	// invoke bindings to make pizza according to specifications
 	resource, err := gw.Create(opts)
 
+	fmt.Print(resource)
+
 	// code to handle errors
 
 	// we need to set the resource id before completely returning from this stack
-	data.SetID(pizza["id"])
+	data.SetId("abc")
 
-	return resourcePizzaRead(data, meta)
+	return nil
 }

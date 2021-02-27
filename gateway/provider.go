@@ -8,7 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-type GatewayConfiguration struct {
+// Configuration struct
+type Configuration struct {
 	endpoint string
 }
 
@@ -51,7 +52,7 @@ func configureProvider(data *schema.ResourceData) (interface{}, error) {
 		return nil, err
 	}
 	// code to error handle
-	return &GatewayConfiguration{
+	return &Configuration{
 		endpoint: endpoint,
 	}, nil
 }
