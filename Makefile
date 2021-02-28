@@ -13,9 +13,9 @@ fmtcheck:
 	@sh -c "'$(CURDIR)/scripts/gofmtcheck.sh'"
 
 test: fmtcheck
-	go test -i $(TEST) || exit 1
+	go test $(TEST) || exit 1
 	echo $(TEST) | \
-		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=
+		xargs -t -n4 go test $(TESTARGS) -timeout=30s -parallel=4
 
 testacc: fmtcheck 
-  TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
+  TF_ACC=1 go test -v $(TEST) -v $(TESTARGS) -timeout 120m

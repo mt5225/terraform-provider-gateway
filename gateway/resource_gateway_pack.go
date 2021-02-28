@@ -14,10 +14,9 @@ func resourcePack() *schema.Resource {
 	return &schema.Resource{
 		// functions for the various actions
 		Create: resourcePackCreate,
-		// Read:   resourcePackRead,
-		// Update: resourcePackUpdate,
-		// Delete: resourcePackDelete,
-		// Exists: resourcePackExists,
+		Read:   resourcePackRead,
+		Update: resourcePackUpdate,
+		Delete: resourcePackDelete,
 
 		Schema: map[string]*schema.Schema{
 			// resource arguments and their specifications go here
@@ -31,7 +30,7 @@ func resourcePack() *schema.Resource {
 				Required:    true,
 				Description: "request header",
 			},
-			"interfaceName": &schema.Schema{
+			"interface_name": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "interface name",
@@ -51,7 +50,7 @@ func resourcePack() *schema.Resource {
 				Required:    true,
 				Description: "product name",
 			},
-			"provider": &schema.Schema{
+			"rs_provider": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "provider name",
@@ -64,13 +63,13 @@ func resourcePack() *schema.Resource {
 func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 	// create struct from desired pizza arguments
 	body := &map[string]interface{}{
-		"access":        data.Get("access"),
-		"head":          data.Get("head"),
-		"interfaceName": data.Get("interfaceName"),
-		"method":        data.Get("method"),
-		"params":        data.Get("params"),
-		"product":       data.Get("product"),
-		"provider":      data.Get("provider"),
+		"access":          data.Get("access"),
+		"head":            data.Get("head"),
+		"interfacee_name": data.Get("interface_name"),
+		"method":          data.Get("method"),
+		"params":          data.Get("params"),
+		"product":         data.Get("product"),
+		"rs_provider":     data.Get("provider"),
 	}
 
 	bodyEncode, err := json.Marshal(*body)
@@ -95,5 +94,15 @@ func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 	// we need to set the resource id before completely returning from this stack
 	data.SetId("abc")
 
+	return nil
+}
+
+func resourcePackUpdate(data *schema.ResourceData, meta interface{}) error {
+	return nil
+}
+func resourcePackRead(data *schema.ResourceData, meta interface{}) error {
+	return nil
+}
+func resourcePackDelete(data *schema.ResourceData, meta interface{}) error {
 	return nil
 }

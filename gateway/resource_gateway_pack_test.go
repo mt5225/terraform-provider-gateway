@@ -39,7 +39,7 @@ resource "gateway_pack" "test" {
 	heads = {
     }
 
-   interfaceName = "Compute Interface"
+   interface_name = "Compute Interface"
    method = "describeInstances"
    params =  {
    }
@@ -60,7 +60,7 @@ func testEndpointExist(rn string) resource.TestCheckFunc {
 		}
 
 		if rs.Primary.ID == "" {
-			return fmt.Errorf("user id not set")
+			return fmt.Errorf("resource id not set")
 		}
 		return nil
 	}
