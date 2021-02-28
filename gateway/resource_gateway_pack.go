@@ -41,8 +41,8 @@ func resourcePack() *schema.Resource {
 				Description: "request method",
 			},
 			"params": &schema.Schema{
-				Type:        schema.TypeString,
-				Required:    true,
+				Type:        schema.TypeMap,
+				Optional:    true,
 				Description: "request parameters",
 			},
 			"product": &schema.Schema{

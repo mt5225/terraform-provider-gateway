@@ -10,8 +10,9 @@ import (
 
 func TestAccPack_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
-		PreCheck:  func() { testAccPreCheck(t) },
-		Providers: testAccProviders,
+		PreCheck:     func() { testAccPreCheck(t) },
+		Providers:    testAccProviders,
+		CheckDestroy: testAccCheckPackResourceDestroy,
 		Steps: []resource.TestStep{
 			{
 				Config: testGatewayPackConfig,
@@ -19,7 +20,7 @@ func TestAccPack_basic(t *testing.T) {
 					testEndpointExist("gateway_pack.test"),
 					resource.TestCheckResourceAttr("gateway_pack.test", "method", "describeInstances"),
 					resource.TestCheckResourceAttr("gateway_pack.test", "product", "ecs"),
-					resource.TestCheckResourceAttr("gateway_pack.test", "rs_provider", "fusionclouda1"),
+					resource.TestCheckResourceAttr("gateway_pack.test", "rs_provider", "fusioncloud"),
 				),
 			},
 		},
@@ -42,6 +43,7 @@ resource "gateway_pack" "test" {
    interface_name = "Compute Interface"
    method = "describeInstances"
    params =  {
+	   a = "c"
    }
    product = "ecs"
    rs_provider = "fusioncloud"
@@ -64,4 +66,8 @@ func testEndpointExist(rn string) resource.TestCheckFunc {
 		}
 		return nil
 	}
+}
+
+func testAccCheckPackResourceDestroy(s *terraform.State) error {
+	return nil
 }
