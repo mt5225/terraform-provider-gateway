@@ -25,8 +25,11 @@ task-config: &task-config
       - -c
       - |
         GOPATH=$PWD/go
+        GW_ENDPOINT=http://localhost:5000
         cd terraform-provider-gateway
         make test 
+        make vet
+        make
 
 jobs:
 - name: build-provider
