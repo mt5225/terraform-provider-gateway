@@ -8,25 +8,25 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/terraform"
 )
 
-func TestAccUser_basic(t *testing.T) {
+func TestAccPack_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testGatewayPackConfigbasic,
+				Config: testGatewayPackConfig,
 				Check: resource.ComposeTestCheckFunc(
 					testEndpointExist("gateway_pack.test"),
 					resource.TestCheckResourceAttr("gateway_pack.test", "method", "describeInstances"),
 					resource.TestCheckResourceAttr("gateway_pack.test", "product", "ecs"),
-					resource.TestCheckResourceAttr("gateway_pack.test", "provider", "fusionclouda"),
+					resource.TestCheckResourceAttr("gateway_pack.test", "rs_provider", "fusionclouda1"),
 				),
 			},
 		},
 	})
 }
 
-var testGatewayPackConfigbasic = `
+var testGatewayPackConfig = `
 resource "gateway_pack" "test" {
 	access = {
 		username = "testtenant"
@@ -44,7 +44,7 @@ resource "gateway_pack" "test" {
    params =  {
    }
    product = "ecs"
-   provider = "fusioncloud"
+   rs_provider = "fusioncloud"
 }
 
 output "resource_id" {
