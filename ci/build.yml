@@ -12,24 +12,24 @@ resources:
   icon: docker
   source:
     repository: golang
-    tag: 1.16.0-alpine
+    tag: 1.16.0-buster
 
 task-config: &task-config
   platform: linux
   inputs:
     - name: terraform-provider-gateway-git
-      path: go/src/github.com/terraform-provider-gateway
+      path: terraform-provider-gateway
   run:
     path: /bin/sh
     args:
       - -c
       - |
         GOPATH=$PWD/go
-        cd go/src/github.com/terraform-provider-gateway
+        cd terraform-provider-gateway
         make test 
 
 jobs:
-- name: build
+- name: build-provider
   public: true
   plan:
     - get: terraform-provider-gateway-git 
