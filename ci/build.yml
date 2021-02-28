@@ -1,7 +1,7 @@
 ---
 # Build definition for Concourse.cii
 resources:
-- name: tf-git
+- name: terraform-provider-gateway-git
   type: git
   icon: github
   source:
@@ -12,12 +12,12 @@ resources:
   icon: docker
   source:
     repository: golang
-    tag: 1.16-stretch
+    tag: 1.16.0-alpine
 
 task-config: &task-config
   platform: linux
   inputs:
-    - name: tf-git
+    - name: terraform-provider-gateway-git
       path: go/src/github.com/terraform-provider-gateway
   run:
     path: /bin/sh
@@ -26,13 +26,13 @@ task-config: &task-config
       - |
         GOPATH=$PWD/go
         cd go/src/github.com/terraform-provider-gateway
-        make install
+        make test 
 
 jobs:
 - name: build
   public: true
   plan:
-    - get: tf-git
+    - get: terraform-provider-gateway-git 
       trigger: true
     - get: golang-1.16.x-image
       trigger: true
