@@ -61,7 +61,7 @@ func connectGateway(endpoint string) error {
 	_, err := http.Get(endpoint)
 
 	if err != nil {
-		fmt.Errorf("Error connect to gateway ")
+		return fmt.Errorf("Error connect to gateway ")
 	}
 
 	// more code for communicating the pizza request with the api
