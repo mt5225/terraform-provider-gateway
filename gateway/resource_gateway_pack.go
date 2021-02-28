@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
 	gw "github.com/mt5225/cloudj-gateway-go/gateway"
+	"github.com/tidwall/gjson"
 )
 
 // pizza resource declaration and schema
@@ -63,13 +64,13 @@ func resourcePack() *schema.Resource {
 func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 	// create struct from desired pizza arguments
 	body := &map[string]interface{}{
-		"access":          data.Get("access"),
-		"head":            data.Get("head"),
-		"interfacee_name": data.Get("interface_name"),
-		"method":          data.Get("method"),
-		"params":          data.Get("params"),
-		"product":         data.Get("product"),
-		"rs_provider":     data.Get("provider"),
+		"access":         data.Get("access"),
+		"head":           data.Get("head"),
+		"interfaceeName": data.Get("interface_name"),
+		"method":         data.Get("method"),
+		"params":         data.Get("params"),
+		"product":        data.Get("product"),
+		"provider":       data.Get("rs_provider"),
 	}
 
 	bodyEncode, err := json.Marshal(*body)
@@ -84,15 +85,24 @@ func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
 	opts.Method = "POST"
 	opts.Body = bodyEncode
 
-	// invoke bindings to make pizza according to specifications
-	resource, err := gw.Create(opts)
+	// invoke bindings to make request to gateway endpoint
+	resp, err := gw.Create(opts)
 
-	fmt.Print(resource)
-
-	// code to handle errors
+	if err != nil {
+		return fmt.Errorf("fail to parse json")
+	}
 
 	// we need to set the resource id before completely returning from this stack
-	data.SetId("abc")
+	// for different integrations
+	if data.Get("rs_provider") == "fusioncloud" {
+		if resp.Success == false {
+			return fmt.Errorf("fail to get server id from fusioncloud respone")
+		}
+		if resp.ServerID == "" {
+			return fmt.Errorf("fail to get server id from fusioncloud respone")
+		}
+		data.SetId(resp.ServerID)
+	}
 
 	return nil
 }
@@ -105,4 +115,10 @@ func resourcePackRead(data *schema.ResourceData, meta interface{}) error {
 }
 func resourcePackDelete(data *schema.ResourceData, meta interface{}) error {
 	return nil
+}
+
+func fusioncloudGetServerID(msg *map[string]interface{}) string {
+	json := fmt.Sprintf("%v", msg)
+	value := gjson.Get(json, "resultObject.resultMap.servers.0.tenant_id")
+	return value.String()
 }
