@@ -1,5 +1,5 @@
 ---
-# Build definition for Concourse.ci
+# release definition for Concourse.ci
 platform: linux
 image_resource:
   type: docker-image
