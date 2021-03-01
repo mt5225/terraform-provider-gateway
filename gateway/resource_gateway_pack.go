@@ -10,7 +10,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-// pizza resource declaration and schema
+// gateway resource declaration and schema
 func resourcePack() *schema.Resource {
 	return &schema.Resource{
 		// functions for the various actions
@@ -62,7 +62,7 @@ func resourcePack() *schema.Resource {
 
 // create a resource
 func resourcePackCreate(data *schema.ResourceData, meta interface{}) error {
-	// create struct from desired pizza arguments
+	// create struct from desired gateway arguments
 	body := &map[string]interface{}{
 		"access":         data.Get("access"),
 		"head":           data.Get("head"),

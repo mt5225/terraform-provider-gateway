@@ -64,7 +64,7 @@ func connectGateway(endpoint string) error {
 		return fmt.Errorf("Error connect to gateway ")
 	}
 
-	// more code for communicating the pizza request with the api
+	// more code for communicating the gateway request with the api
 
 	return err
 }
